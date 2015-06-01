@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 import org.json.JSONException;
@@ -69,8 +70,10 @@ public class httpConnectActivity extends ActionBarActivity implements View.OnCli
     public void onClick(View v) {
         if(v == m_btnHttpConn)
         {
+            RequestParams req = new RequestParams();
+            req.add("device_reg_id","12345678");
             //client.get(url, AsyncHttpResponseHandler);
-            client.get("http://211.226.92.37:8888", new AsyncHttpResponseHandler() {
+            client.post("http://202.30.29.239:8888", req, new AsyncHttpResponseHandler() {
 
                 @Override
                 public void onStart() {
@@ -83,11 +86,9 @@ public class httpConnectActivity extends ActionBarActivity implements View.OnCli
                     // called when response HTTP status is "200 OK"
                     Log.d("state", "onSuccess");
                     try {
-                        String strRes = new String(response,"UTF-8");
+                        String strRes = new String(response, "UTF-8");
                         m_TV.setText(strRes);
-                    }
-                    catch (UnsupportedEncodingException e)
-                    {
+                    } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
@@ -98,7 +99,7 @@ public class httpConnectActivity extends ActionBarActivity implements View.OnCli
                     Log.d("state", "onFailure");
 
 
-                    m_TV.setText(statusCode+"");
+                    m_TV.setText(statusCode + "");
                 }
 
                 @Override
